@@ -21,11 +21,11 @@ export default function Login() {
       // Memanggil endpoint login
       const response = await api.post("/auth/login", { email, password });
 
-      // Mengambil data dari response
-      const { access_token, user } = response.data.data;
+      const token = response.data.data.access_token;
+      const user = response.data.data.user;
 
       // Simpan ke Context & LocalStorage
-      login(access_token, user);
+      login(token, user);
 
       // Pindah ke halaman dashboard
       navigate("/dashboard");
@@ -53,7 +53,7 @@ export default function Login() {
           <h1 className="text-2xl font-bold text-slate-800">
             Social Media Automation
           </h1>
-          <p className="text-sm text-slate-500">Silakan masuk ke akun Anda</p>
+          <p className="text-sm text-slate-500">Please sign in to your account</p>
         </div>
 
         {/* Banner Error */}

@@ -8,11 +8,11 @@ export default function Unauthorized() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-4 text-center">
       <ShieldAlert className="h-16 w-16 text-red-500" />
-      <h1 className="text-2xl font-semibold">Akses Ditolak</h1>
+      <h1 className="text-2xl font-semibold">Access denied</h1>
       <p className="max-w-md text-muted-foreground">
         {user
-          ? `Akun kamu (${user.email}) dengan role ${user.role} tidak memiliki izin untuk mengakses halaman ini.`
-          : "Kamu tidak memiliki izin untuk mengakses halaman ini."}
+          ? `Your account (${user.email}) with role ${user.role} does not have permission to access this page.`
+          : "You do not have permission to access this page."}
       </p>
 
       <div className="flex gap-3">
@@ -20,7 +20,7 @@ export default function Unauthorized() {
           to="/dashboard"
           className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
         >
-          Kembali ke Dashboard
+          Back to Dashboard
         </Link>
         <button
           onClick={logout}

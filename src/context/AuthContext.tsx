@@ -26,12 +26,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return saved ? JSON.parse(saved) : null;
   });
 
-  const VALID_ROLES: Role[] = ["ADMIN", "EDITOR", "SCHEDULER"];
+  const VALID_ROLES: Role[] = ["ADMIN", "EDITOR", "SCHEDULER", "VIEWER"];
 
   function normalizeRole(role: string): Role {
     const upper = role.toUpperCase();
     if (!VALID_ROLES.includes(upper as Role)) {
-      throw new Error(`Role tidak valid: ${role}`);
+      throw new Error(`invalid role: ${role}`);
     }
     return upper as Role;
   }
@@ -65,7 +65,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 // eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context)
-    throw new Error("useAuth harus digunakan di dalam AuthProvider");
+  if (!context) throw new Error("useAuth must be used within an AuthProvider");
   return context;
 };

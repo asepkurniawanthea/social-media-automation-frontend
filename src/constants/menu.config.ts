@@ -68,7 +68,7 @@ export const MENU_ITEMS: MenuItem[] = [
     name: "Post Metrics",
     href: "/post-metrics",
     icon: BarChart2,
-    allowedRoles: ["ADMIN", "SCHEDULER"],
+    allowedRoles: ["ADMIN", "VIEWER"],
     component: lazy(() => import("../pages/PostMetrics")),
   },
 ];
