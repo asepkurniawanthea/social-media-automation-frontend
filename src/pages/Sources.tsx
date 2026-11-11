@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import api from "../api/axios";
 import axios from "axios";
 
-type Channel = "hardcode" | "ngabring" | "1001colors" | "kangbadru";
 type ActiveFilter = "all" | "true" | "false";
 type ChannelFilter =
   | "all"
@@ -16,9 +15,10 @@ interface Source {
   id: number;
   domain: string;
   name: string;
-  channel: Channel;
+  channel: ChannelFilter;
   active: boolean;
   created_at: string;
+  updated_at: string;
 }
 
 interface Meta {
@@ -38,7 +38,7 @@ interface ApiResponse<T> {
 interface SourceForm {
   domain: string;
   name: string;
-  channel: Channel;
+  channel: ChannelFilter;
   active: boolean;
 }
 
