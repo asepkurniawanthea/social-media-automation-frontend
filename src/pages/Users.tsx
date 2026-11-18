@@ -3,13 +3,13 @@ import { useState, useEffect } from "react";
 import api from "../api/axios";
 import axios from "axios";
 
-type Role = "admin" | "editor" | "scheduler" | "viewer";
+type RoleFilter = "all" | "admin" | "editor" | "scheduler" | "viewer";
 type ActiveFilter = "all" | "true" | "false";
 
 interface User {
   id: number;
   email: string;
-  role: Role;
+  role: RoleFilter;
   active: boolean;
   created_at: string;
 }
@@ -31,7 +31,7 @@ interface ApiResponse<T> {
 interface UserForm {
   email: string;
   password: string;
-  role: Role;
+  role: RoleFilter;
   active: boolean;
 }
 
@@ -64,6 +64,7 @@ export default function Users() {
   const [meta, setMeta] = useState<Meta | null>(null);
   const [search, setSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState<ActiveFilter>("all");
+  const [roleFilter, setRoleFilter] = useState<RoleFilter>("all");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const limit = 10;
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -86,6 +87,7 @@ export default function Users() {
           limit,
           // undefined tidak ikut dikirim di query string
           search: debouncedSearch || undefined,
+          role: roleFilter === "all" ? undefined : roleFilter,
           active: activeFilter === "all" ? undefined : activeFilter === "true",
         },
       });
@@ -111,7 +113,7 @@ export default function Users() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchUsers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, limit, debouncedSearch, activeFilter]);
+  }, [page, limit, debouncedSearch, roleFilter, activeFilter]);
 
   const openModal = (user?: User) => {
     if (user) {
@@ -231,14 +233,27 @@ export default function Users() {
         <div className="flex items-center gap-2">
           <input
             type="text"
-            placeholder="Search email or role..."
+            placeholder="Search email..."
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
             }}
             className="rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-
+          <select
+            value={roleFilter}
+            onChange={(e) => {
+              setRoleFilter(e.target.value as RoleFilter);
+              setPage(1);
+            }}
+            className="rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="all">All</option>
+            <option value="admin">Admin</option>
+            <option value="editor">Editor</option>
+            <option value="scheduler">Scheduler</option>
+            <option value="viewer">Viewer</option>
+          </select>
           <select
             value={activeFilter}
             onChange={(e) => {
